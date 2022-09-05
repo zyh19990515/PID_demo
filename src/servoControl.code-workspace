@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../servoControl"
+		},
+		{
+			"path": "../../board"
+		},
+		{
+			"name": "PWMdemo",
+			"path": "../../PWMdemo"
+		},
+		{
+			"name": "PIDdemo_v1",
+			"path": ".."
+		}
+	],
+	"settings": {}
+}

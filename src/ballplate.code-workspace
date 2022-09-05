@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../ballplate"
+		},
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../board"
+		}
+	],
+	"settings": {}
+}
