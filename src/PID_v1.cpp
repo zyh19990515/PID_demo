@@ -12,6 +12,7 @@ PID::PID(double* Input, double* Output, double* Setpoint,
     currDv = 0;
     lastDv = 0;
     PID::SetOutputLimits(0, 255);
+    PID::SetTunings(Kp,Ki,Kd,POn);
     SampleTime = 100;
     lastTime = millis()-SampleTime;
 

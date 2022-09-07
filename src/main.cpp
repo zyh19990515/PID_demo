@@ -16,6 +16,7 @@ A3 - Yout
 #include <Servo.h>
 #include<board.h>
 #include<PID_v1.h>
+#include<KalmanFilter.h>
 // #define X1 A0 
 // #define X2 A2 
 // #define Y1 A3 
@@ -49,21 +50,36 @@ float Ki1 = 0.05;
 float Kd1 = 0.085;
 double  R = 0;
 
+float my_A = 1;
+float my_C = 1;
+float my_P_ = 1;
+float my_P = 1;
+float my_Q = 0.9;
+float my_R = 1;
+float my_x_ = 0;
+
 int NoDataFrame = 0;
 int InitFrame = 0;
 bool SysInit = false;
 
-int ServoXBlanceOut = 88; // x轴舵机初始水平输出 控制y轴运动
-int ServoYBlanceOut = 85; // y轴舵机初始水平输出 控制x轴运动
+int ServoXBlanceOut = 90; // x轴舵机初始水平输出 控制y轴运动
+int ServoYBlanceOut = 90; // y轴舵机初始水平输出 控制x轴运动
 
 PID Pid( &Input, &Output, &Setpoint, Kp, Ki, Kd, P_ON_E, DIRECT,0.3);
 PID Pid1( &Input1, &Output1, &Setpoint1, Kp1, Ki1, Kd1, P_ON_E, DIRECT,0.3);
+KalmanFilter KF(my_A, my_C, my_P_, my_P, my_Q, my_R, my_x_);
+KalmanFilter KF1(my_A, my_C, my_P_, my_P, my_Q, my_R, my_x_);
 void printLog();
 double ReserveOutput(double output, double center);
 void setup() {
   // put your setup code here, to run once:
   bdInit();
+  
   Serial.begin(115200);
+  while (!Serial){
+    Serial.print(".");
+    delay(1000);
+  }
   Setpoint = 119;
   Setpoint1 = 98;
   Input = 0;
@@ -83,6 +99,9 @@ void setup() {
   Pid1.SetOutputLimits(ANGLE_MIN,ANGLE_MAX);
   Pid.SetSampleTime(Interval);
   Pid1.SetSampleTime(Interval);
+  Serial.println("init finish");
+  
+  
 
 }
 
@@ -102,8 +121,12 @@ void loop() {
     Input = point.x;
     Input1 = point.y;
 
+    Input = KF.estimate(Input);
+    Input1 = KF1.estimate(Input1);
     Pid.compute();
     Pid1.compute();
+    //Output = KF.estimate(Output);
+    //Output1 = KF.estimate(Output1);
     servoX.write(ReserveOutput(Output, 119));
     servoY.write(Output1);
     printLog();
