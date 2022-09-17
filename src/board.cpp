@@ -34,8 +34,12 @@ TCPoint posDetect(){
     // Serial.print(Position_X,DEC); 
     // Serial.print("  Position_Y:"); 
     // Serial.println(Position_Y,DEC);
-    delay(100);                  //=====延时等待
+                //=====延时等待
     point.x=Position_X;
     point.y=Position_Y;
     return point;
 }
+
+// double speedDetect(){
+    
+// }

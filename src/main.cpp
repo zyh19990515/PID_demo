@@ -26,7 +26,6 @@ A3 - Yout
 
 #define SvrXPin 9
 #define SvrYPin 10 
-
 int    Interval  = 25;
 double  Setpoint, Input, Output;
 double  Setpoint1, Input1, Output1;

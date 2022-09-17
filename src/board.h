@@ -14,3 +14,4 @@ struct TCPoint{
 
 void bdInit();
 TCPoint posDetect();
+double speedDetect();
